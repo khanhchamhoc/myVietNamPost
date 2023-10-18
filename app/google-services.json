@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "514529879636",
+    "firebase_url": "https://myvietnampos-default-rtdb.firebaseio.com",
+    "project_id": "myvietnampos",
+    "storage_bucket": "myvietnampos.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514529879636:android:479eef5074d41694166fc1",
+        "android_client_info": {
+          "package_name": "com.example.myvietnampost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514529879636-nqg2kbvv15c4vu0d8lj2i4b40va10jc3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myvietnampost",
+            "certificate_hash": "aa6ef21d11ea77bbb4bfc740d90eec10ecc8318d"
+          }
+        },
+        {
+          "client_id": "514529879636-tb32rgv3rdunldu8fn1i584ff37bau1r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOow00Qo0p6n-aIIEr4cYYW4852lBOFTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514529879636-tb32rgv3rdunldu8fn1i584ff37bau1r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
