@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
-        Toast.makeText(this, "Xin chao git hub", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Xin chao Duy Khanh", Toast.LENGTH_SHORT).show();
 //       Nút đăng xuất user
         binding.btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
