@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
         Toast.makeText(this, "Xin chao git hub", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Xin chao ngo duy khanh", Toast.LENGTH_SHORT).show();
 //       Nút đăng xuất user
         binding.btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
