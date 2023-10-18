@@ -32,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
+ HEAD
 
+
+ ca592c444dde6d763b1f88304ba6d0ddfae3ec1f
 //       Nút đăng xuất user
         binding.btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
