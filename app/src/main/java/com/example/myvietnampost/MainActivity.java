@@ -26,16 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
 //        Kiểm tra đã có tài khoản nào đăng nhập vào hệ thống chưa
         if (user != null) {
-            binding.tvName.setText(user.getEmail());
+            binding.tvName.setText(user.getDisplayName());
+            binding.tvEmail.setText(user.getEmail());
             Picasso.get().load(user.getPhotoUrl()).into(binding.ivImage);
         }else {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }
- HEAD
 
-
- ca592c444dde6d763b1f88304ba6d0ddfae3ec1f
 //       Nút đăng xuất user
         binding.btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
