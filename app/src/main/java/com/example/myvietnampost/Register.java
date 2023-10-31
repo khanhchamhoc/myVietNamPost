@@ -59,11 +59,7 @@ public class Register extends AppCompatActivity {
                 }
                 if(!checkBlank(email, password,confirmpassword) && checkEmail(email) && checkPass(password,confirmpassword)){
                     regester(email,password);
-
                 }
-
-
-
             }
         });
     }
