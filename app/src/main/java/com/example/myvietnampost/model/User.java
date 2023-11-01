@@ -1,6 +1,30 @@
-package com.example.myvietnampost.Model;
+package com.example.myvietnampost.model;
 
 public class User {
+    private String  id, name, phoneNumber, email, address, taxNumber, identity, dateOfBirth, province, district, subDistrict;
+    public User(){};
+    public User(String id, String name, String phoneNumber, String email, String address, String taxNumber, String identity, String dateOfBirth, String province, String district, String subDistrict) {
+        this.id = id;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.taxNumber = taxNumber;
+        this.identity = identity;
+        this.dateOfBirth = dateOfBirth;
+        this.province = province;
+        this.district = district;
+        this.subDistrict = subDistrict;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -80,19 +104,4 @@ public class User {
     public void setSubDistrict(String subDistrict) {
         this.subDistrict = subDistrict;
     }
-
-    private String name, phoneNumber, email, address, taxNumber, identity, dateOfBirth, province, district, subDistrict;
-    public User(String name, String phoneNumber, String email, String address, String taxNumber, String identity, String dateOfBirth, String province, String district, String subDistrict) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-        this.taxNumber = taxNumber;
-        this.identity = identity;
-        this.dateOfBirth = dateOfBirth;
-        this.province = province;
-        this.district = district;
-        this.subDistrict = subDistrict;
-    }
-
 }

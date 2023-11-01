@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.myvietnampost.databinding.ActivityLoginBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,8 +34,7 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 //      Đăng ký
         binding.registerButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +54,6 @@ public class Login extends AppCompatActivity {
             }
         });
 // xin chào git hub
-
 //      Đăng nhập với GG
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -69,13 +68,11 @@ public class Login extends AppCompatActivity {
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-
         if(mAuth.getCurrentUser() != null){
             Toast.makeText(Login.this, "Hello "+mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Login.this, MainActivity.class);
             startActivity(intent);
         }
-
     }
 
     @Override

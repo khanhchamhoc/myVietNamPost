@@ -2,8 +2,12 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
+    <data>
+        <variable
+            name="user"
+            type="com.example.myvietnampost.model.User" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -67,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Họ tên"
+                    android:text="@{user.name}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
@@ -92,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Số điện thoại"
+                    android:text="@{user.phoneNumber}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
@@ -117,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Emal"
+                    android:text="@{user.email}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
@@ -142,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Địa chỉ"
+                    android:text="@{user.address}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
@@ -167,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Ngày sinh"
+                    android:text="@{user.dateOfBirth}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
@@ -192,7 +196,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Họ tên"
+                    android:text="@{user.identity}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
@@ -217,14 +221,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Mã số thuế"
+                    android:text="@{user.taxNumber}"
                     android:textSize="20dp"
                     android:layout_marginRight="20dp"
                     android:gravity="end"
                     />
             </LinearLayout>
-
-
         </LinearLayout>
 
         <TextView
