@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -30,12 +31,33 @@ public class Login extends AppCompatActivity {
     private ActivityLoginBinding binding;
     FirebaseAuth mAuth;
     int RC_SIGN_IN  = 20;
+    FirebaseUser user;
     GoogleSignInClient mGoogleSignInClient;
+    private boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Nhấn Back lần nữa để thoát", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        // 2000 milliseconds = 2 seconds. Người dùng cần phải ấn lại "Back" trong vòng 2 giây để thoát.
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        if(user != null){
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+        }
 //      Đăng ký
         binding.registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +72,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String email = binding.emailIP.getText().toString().trim();
                 String password = binding.passwordIP.getText().toString().trim();
+                if(email.equals("") || password.equals("")) return;
                 signInwithEmail(email,password);
             }
         });
