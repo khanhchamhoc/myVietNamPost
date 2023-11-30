@@ -55,7 +55,7 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if(user != null){
-            Intent intent = new Intent(Login.this, MainActivity.class);
+            Intent intent = new Intent(Login.this, UserActivity.class);
             startActivity(intent);
         }
 //      Đăng ký
@@ -93,7 +93,7 @@ public class Login extends AppCompatActivity {
         });
         if(mAuth.getCurrentUser() != null){
             Toast.makeText(Login.this, "Hello "+mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Login.this, MainActivity.class);
+            Intent intent = new Intent(Login.this, UserActivity.class);
             startActivity(intent);
         }
     }
@@ -120,7 +120,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(Login.this, "Hello "+mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Login.this, MainActivity.class);
+                            Intent intent = new Intent(Login.this, UserActivity.class);
                             startActivity(intent);
                         } else {
                             Toast.makeText(Login.this, "error", Toast.LENGTH_SHORT).show();
@@ -140,7 +140,7 @@ public class Login extends AppCompatActivity {
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
                                 Toast.makeText(Login.this, "Hello "+mAuth.getCurrentUser().getEmail(), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                Intent intent = new Intent(Login.this, UserActivity.class);
                                 startActivity(intent);
                             } else {
                                 // If sign in fails, display a message to the user.

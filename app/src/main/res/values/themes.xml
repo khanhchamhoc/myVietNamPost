@@ -6,4 +6,13 @@
     </style>
 
     <style name="Theme.MyVietnamPost" parent="Base.Theme.MyVietnamPost" />
+
+    <style name="Theme.MyVietnamPost.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MyVietnamPost.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyVietnamPost.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -23,27 +24,16 @@
 
             <TextView
                 android:id="@+id/tvTT"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="40dp"
+                android:layout_weight="1"
+                android:layout_marginTop="16dp"
                 android:text="Thông tin tài khoản"
                 android:textAlignment="center"
-                android:textSize="30dp"
-                android:gravity="center"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:id="@+id/updateUser"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="40dp"
-                android:text="Chỉnh sửa"
-                android:textSize="15dp"
-                android:layout_weight="5"
-                android:gravity="end"
-                android:clickable="true"
-                android:padding="15dp"
-                />
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
         </LinearLayout>
         <TextView
             android:id="@+id/tvCn"
@@ -53,7 +43,6 @@
             android:textSize="25dp"
             android:layout_marginTop="40dp"
             android:layout_marginLeft="15dp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -269,18 +258,18 @@
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/logOut"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/updateUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="10dp"
-            android:text="Xoá tài khoản"
-            android:textColor="@color/red"
-            android:textSize="20dp"
-            android:clickable="true"
+            android:text="Cập nhật thông tin"
+            android:textSize="14dp"
+            android:textColor="@color/black"
+            android:background="@drawable/button_layout"
             android:padding="20dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

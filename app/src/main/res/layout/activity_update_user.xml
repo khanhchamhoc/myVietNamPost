@@ -55,9 +55,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Họ và Tên"
+                    android:text="@={user.name}"
                     android:imeOptions="actionDone"
                     />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phoneNumber_input"
                 android:layout_width="match_parent"
@@ -72,6 +74,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Số điện thoại"
                     android:inputType="number"
+                    android:text="@={user.phoneNumber}"
                     android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -87,6 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Mã số thuế"
+                    android:text="@={user.taxNumber}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -103,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:hint="CMND/CCCD"
                     android:inputType="number"
+                    android:text="@={user.identity}"
                     android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
 <!--            áddddddddddddddddddddddđasdasdasdasdasdasd-->
@@ -119,6 +124,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ngày sinh"
+                    android:text="@={user.dateOfBirth}"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
@@ -130,9 +136,11 @@
                 android:layout_marginBottom="10dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailIP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
+                    android:text="@={user.email}"
                     android:inputType="textEmailAddress"
                     android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -156,6 +164,8 @@
                android:layout_marginBottom="10dp"
                android:padding="16dp"
                android:background="@drawable/spinner_border"
+
+
                />
 <!--            Thành phố -->
 
@@ -168,6 +178,7 @@
                 android:layout_marginBottom="10dp"
                 android:padding="16dp"
                 android:background="@drawable/spinner_border"
+
                 />
             <!--            Quan Huyen -->
 
@@ -180,6 +191,7 @@
                 android:layout_marginBottom="10dp"
                 android:padding="16dp"
                 android:background="@drawable/spinner_border"
+
                 />
             <!--            Địa chỉ chi tiết-->
             <com.google.android.material.textfield.TextInputLayout
@@ -190,10 +202,12 @@
                 android:layout_marginBottom="10dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addressIP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Địa chỉ chi tiết"
                     android:inputType="text"
+                    android:text="@={user.address}"
                     android:imeOptions="actionDone"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

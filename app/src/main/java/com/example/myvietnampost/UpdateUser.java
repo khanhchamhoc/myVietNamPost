@@ -1,6 +1,8 @@
 package com.example.myvietnampost;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -11,15 +13,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.myvietnampost.API.ApiService;
 import com.example.myvietnampost.API.RetrofitInstance;
 import com.example.myvietnampost.databinding.ActivityUpdateUserBinding;
+import com.example.myvietnampost.model.User;
 import com.example.myvietnampost.model.apiModel.District;
 import com.example.myvietnampost.model.apiModel.Division;
 import com.example.myvietnampost.model.apiModel.Ward;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +39,8 @@ public class UpdateUser extends AppCompatActivity {
     List<District> districts;
     List<Ward> wards;
     private UpdateUserViewModel viewModel;
+    private FirebaseAuth mauth = FirebaseAuth.getInstance();
+    private FirebaseUser user = mauth.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +55,12 @@ public class UpdateUser extends AppCompatActivity {
                 showDatePickerDialog();
             }
         });
-//        Mac dinh
-//
+
         viewModel = new ViewModelProvider(this).get(UpdateUserViewModel.class);
-//        Tinh Thay doi
-        viewModel.getDivisionsLiveData().observe(this, new Observer<List<Division>>() {
-            @Override
-            public void onChanged(List<Division> divisionList) {
-                if(divisionList != null){
-
-                }else {
-                    getData();
-                }
-            }
-        });
-
-        viewModel.getDistrictsLiveData().observe(this, new Observer<List<District>>() {
-            @Override
-            public void onChanged(List<District> districtList) {
-                if(districtList != null){
-
-                }else {
-
-                }
+        viewModel.fetchDataFromFirebase();
+        viewModel.getUserLiveData().observe(this, user -> {
+            if(user != null){
+                binding.setUser(user);
             }
         });
         getData();
@@ -94,12 +83,25 @@ public class UpdateUser extends AppCompatActivity {
                 viewModel.updateWards(districts.get(selectedItem).getWards());
                 loadDataQuanHuyen(selectedItem);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+            }
+        });
+        binding.footer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user1 = new User(user.getUid(), binding.nameIP.getText().toString().trim(),binding.phoneNumberIP.getText().toString().trim(), binding.emailIP.getText().toString().trim(), binding.addressIP.getText().toString().trim(), binding.taxNumberIP.getText().toString().trim(), binding.identityIP.getText().toString().trim(), binding.dateTimeIP.getText().toString(), binding.Tinh.getSelectedItem().toString().trim(), binding.ThanhPho.getSelectedItem().toString().trim(), binding.QuanHuyen.getSelectedItem().toString().trim());
+                if(viewModel.check(user1)) {
+                    showUpdateConfirmationDialog();
+                }else {
+                    wrongInfoDialog();
+                    return;
+                }
             }
         });
     }
+
 
     //    Ngày sinh
     private void showDatePickerDialog() {
@@ -111,7 +113,7 @@ public class UpdateUser extends AppCompatActivity {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                String selectedDate = day + "/" + (month + 1) + "/" + year;
+                String selectedDate = day + "-" + (month + 1) + "-" + year;
                 binding.dateTimeIP.setText(selectedDate);
             }
         }, year, month, day);
@@ -162,6 +164,52 @@ public class UpdateUser extends AppCompatActivity {
         ArrayAdapter<String> adapter2 = new ArrayAdapter<>(UpdateUser.this, android.R.layout.simple_spinner_item, wardName);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.QuanHuyen.setAdapter(adapter2);
+    }
+    private void showUpdateConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Xác nhận cập nhật");
+        builder.setMessage("Bạn có chắc chắn muốn cập nhật thông tin?");
+        builder.setPositiveButton("Cập nhật", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                User user1 = new User(user.getUid(), binding.nameIP.getText().toString().trim(),binding.phoneNumberIP.getText().toString().trim(), binding.emailIP.getText().toString().trim(), binding.addressIP.getText().toString().trim(), binding.taxNumberIP.getText().toString().trim(), binding.identityIP.getText().toString().trim(), binding.dateTimeIP.getText().toString(), binding.Tinh.getSelectedItem().toString().trim(), binding.ThanhPho.getSelectedItem().toString().trim(), binding.QuanHuyen.getSelectedItem().toString().trim());
+                viewModel.updateUserInformation(user1);
+                viewModel.getUpdateStatus().observe(UpdateUser.this, isUpdateSuccessful -> {
+                    if (isUpdateSuccessful != null) {
+                        if (isUpdateSuccessful) {
+                            Toast.makeText(UpdateUser.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(UpdateUser.this, "Cập nhật không thành công", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+    private void wrongInfoDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Vui lòng nhập đúng thông tin");
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

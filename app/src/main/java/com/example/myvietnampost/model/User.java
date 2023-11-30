@@ -104,4 +104,6 @@ public class User {
     public void setSubDistrict(String subDistrict) {
         this.subDistrict = subDistrict;
     }
+
+
 }

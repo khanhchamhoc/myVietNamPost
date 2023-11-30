@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil;
 import com.example.myvietnampost.databinding.ActivityMainBinding;
 import com.example.myvietnampost.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +23,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     FirebaseAuth mAuth;
     FirebaseUser user;
@@ -37,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
             return;
         }
-
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Nhấn Back lần nữa để thoát", Toast.LENGTH_SHORT).show();
         new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
@@ -49,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 //      FireBase
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
+        if (user == null){
+            Intent intent = new Intent(UserActivity.this, Login.class);
+            startActivity(intent);
+        }
         db = FirebaseFirestore.getInstance();
 //      Khởi tạo dữ liệu mới khi người dùng lần đầu tiên đăng nhập vào ứng dụng
         DocumentReference docRef = db.collection("user").document(user.getUid());
@@ -57,10 +59,23 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        User user1 = document.toObject(User.class);
+                        binding.setUser(user1);
+                    }
+                } else {
+                    Log.d(TAG, "Lỗi ", task.getException());
+                }
+            }
+        });
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
                     if (!document.exists()) {
                         User user1 = new User(user.getUid(),user.getDisplayName(),"",user.getEmail(),"","","","","","","");
                         db.collection("user").document(user.getUid()).set(user1);
-                        Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.d(TAG, "Lỗi ", task.getException());
@@ -68,32 +83,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //        Lấy dữ liệu trả về nơi hiển thị
-       docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-           public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user1 = documentSnapshot.toObject(User.class);
-                binding.setUser(user1);
-           }
-        });
+
+
 //       Nút chỉnh sửa
         binding.updateUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UpdateUser.class);
+                Intent intent = new Intent(UserActivity.this, UpdateUser.class);
                 startActivity(intent);
             }
         });
-
-//       Nút logout
-        binding.logOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                Intent intent1 = new Intent(MainActivity.this, Login.class);
-                startActivity(intent1);
-                Toast.makeText(MainActivity.this,"Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-            }
-        });
-
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.myvietnampost.model.Order;
 import com.example.myvietnampost.model.User;
 import com.example.myvietnampost.model.apiModel.District;
 import com.example.myvietnampost.model.apiModel.Division;
@@ -15,17 +16,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-public class UpdateUserViewModel extends ViewModel {
+public class CreateOderViewModel extends ViewModel {
     private MutableLiveData<List<Division>> divisionsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<District>> districtsLiveData = new MutableLiveData<>();
     private MutableLiveData<List<Ward>> wardsLiveData = new MutableLiveData<>();
-    private MutableLiveData<Boolean> update = new MutableLiveData<>();
+    private MutableLiveData<Boolean> addFlag = new MutableLiveData<>();
 
     private FirebaseAuth mauth = FirebaseAuth.getInstance();
     private FirebaseUser user = mauth.getCurrentUser();
     private MutableLiveData<User> userLiveData = new MutableLiveData<>();
     private MutableLiveData<Boolean> getUpdate = new MutableLiveData<>();
-//Tinh
+    //Tinh
     public LiveData<List<Division>> getDivisionsLiveData(){
         return divisionsLiveData;
     }
@@ -33,65 +34,61 @@ public class UpdateUserViewModel extends ViewModel {
     public void updateDivisions(List<Division> divisions) {
         divisionsLiveData.setValue(divisions);
     }
-//    Thanh Pho
+    //    Thanh Pho
     public LiveData<List<District>> getDistrictsLiveData(){
         return districtsLiveData;
     }
     public void updateDistricts(List<District> districts){
         districtsLiveData.setValue(districts);
     }
-//    Phuong/Xa
+    //    Phuong/Xa
     public LiveData<List<Ward>> getWardsLiveData(){
         return wardsLiveData;
     }
     public void updateWards(List<Ward> wards){
         wardsLiveData.setValue(wards);
     }
-//   USER
-   public LiveData<User> getUserLiveData() {
+    //   USER
+    public LiveData<User> getUserLiveData() {
         return userLiveData;
-   }
-   public MutableLiveData<Boolean> getUpdateStatus(){
-        return update;
-   }
+    }
+    public MutableLiveData<Boolean> getUpdateStatus(){
+        return addFlag;
+    }
     public void fetchDataFromFirebase() {
-    user = mauth.getCurrentUser();
-    if (user != null) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("user").document(user.getUid());
-        docRef.get().addOnSuccessListener(documentSnapshot -> {
-            User user = documentSnapshot.toObject(User.class);
-            userLiveData.setValue(user);
-         });
-        }
-    }
-    public boolean check(User user) {
-        user = userLiveData.getValue();
-        if (user == null) {
-            return false;
-        }
-        boolean isPhoneNumberValid = user.getPhoneNumber().matches("^[0-9]{10,11}$");
-        boolean isNameValid = user.getName() != null;
-        boolean isTaxNumberValid = user.getTaxNumber() != null;
-        boolean isDateOfBirthValid = user.getDateOfBirth() != null;
-        boolean isEmailValid = user.getEmail().matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,6}$");
-        boolean isAddressValid = user.getAddress() != null;
-        return isPhoneNumberValid && isNameValid && isTaxNumberValid && isDateOfBirthValid && isEmailValid && isAddressValid;
-    }
-    public void updateUserInformation(User updatedUser) {
+        user = mauth.getCurrentUser();
         if (user != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference docRef = db.collection("user").document(user.getUid());
-            docRef.set(updatedUser)
+            docRef.get().addOnSuccessListener(documentSnapshot -> {
+                User user = documentSnapshot.toObject(User.class);
+                userLiveData.setValue(user);
+            });
+        }
+    }
+    public boolean check(Order order) {
+        boolean isIdValid = order.getId() != null && !order.getId().isEmpty();
+        boolean isPhoneNumberValid = order.getPhone().matches("^[0-9]{10,11}$");
+        boolean isNameValid = order.getName() != null && !order.getName().isEmpty();
+        boolean isImageUrlValid = order.getImageUrl() != null;
+        boolean isAddressValid = order.getAddress() != null && !order.getAddress().isEmpty();
+        boolean isWeightValid = order.getWeight() >= 0;
+
+        return isPhoneNumberValid && isNameValid && isImageUrlValid && isIdValid && isAddressValid && isWeightValid;
+    }
+    public void addOrder(Order order) {
+        if (user != null) {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference docRef = db.collection("order").document(order.getId());
+            docRef.set(order)
                     .addOnSuccessListener(aVoid -> {
-                        update.setValue(true);
+                        addFlag.setValue(true);
                     })
                     .addOnFailureListener(e -> {
-                        update.setValue(false);
+                        addFlag.setValue(false);
                     });
         }
     }
-
 
 
 }
